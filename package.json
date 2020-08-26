@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/efficiency-org/discord.js-ex/issues"
   },
-  "homepage": "https://github.com/efficiency-org/discord.js-ex#readme"
+  "homepage": "https://github.com/efficiency-org/discord.js-ex#readme",
+  "dependencies": {
+    "discord.js": "^12.3.1"
+  }
 }
