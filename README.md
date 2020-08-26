@@ -12,7 +12,7 @@ The discord.js-ex package requires the discord.js package, because it is an exte
 ## Example Code
 **Note:** This package hasn't been published yet, so this is just how we plan to make it. This will probably change in the future.
 
-`
+
 const { Client } = require('discord.js-ex');
 const token = 'your-token';
 const client = new Client(token);
@@ -25,4 +25,3 @@ client.on('msg', msg => {
 		msg.channel.send('Pong.');
 	}
 });
-`
