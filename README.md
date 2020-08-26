@@ -15,7 +15,8 @@ You need to run `npm install discord.js` to install the `discord.js` package on 
 
 	const { Client } = require('discord.js-ex');
 	const token = 'your-token';
-	const client = new Client(token);
+	const bot = new Client(token);
+	const client = bot.client;
 	const prefix = '!';
 	client.once('ready', () => {
 		console.log(`Logged in as ${client.tag}!`);

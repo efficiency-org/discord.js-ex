@@ -2,7 +2,7 @@
   "name": "discord.js-ex",
   "version": "1.0.0",
   "description": "An npm package to extend on https://www.npmjs.com/package/discord.js, making it simpler and more compact.",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
