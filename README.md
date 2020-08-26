@@ -18,10 +18,10 @@ The discord.js-ex package requires the discord.js package, because it is an exte
 	const client = new Client(token);
 	const prefix = '!';
 	client.once('ready', () => {
-		console.log('Logged in as ' + client.tag + '!');
+		console.log(`Logged in as ${client.tag}!`);
 	});
 	client.on('msg', msg => {
-		if (msg.text.startsWith(prefix + 'ping')) {
+		if (msg.text.startsWith(`${prefix}ping`)) {
 			msg.channel.send('Pong.');
 		}
 	});
