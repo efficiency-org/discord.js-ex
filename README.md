@@ -7,8 +7,6 @@ We are looking for collaborators to help us make this package great.
 ## Installation
 Once the package is published, you can go to https://www.npmjs.com/package/discord.js-ex to get information about it. 
 To add the package to your own projects, go to your terminal and run `npm install discord.js-ex`. *See Required Packages.*
-## Required Packages
-The discord.js-ex package requires the discord.js package, because it is an extension.
 ## Example Code
 **Note:** This package hasn't been published yet, so this is just how we plan to make it. This will probably change in the future.
 
