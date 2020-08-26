@@ -1,5 +1,5 @@
 module.exports = {
-	class Client : DiscordClient {
+	class Client : BotClient {
 		constructor(token : String) {
 			this.token = new String(token);
 
