@@ -23,13 +23,13 @@ const prefix = '!';
 <br>
 client.once('ready', () => {
 <br>
-	console.log(`Logged in as ${client.tag}!`);
+	console.log('Logged in as ' + client.tag + '!');
 	<br>
 });
 <br>
 client.on('msg', msg => {
 <br>
-	if (msg.text.startsWith(`${prefix}ping`)) {
+	if (msg.text.startsWith(prefix + 'ping')) {
 	<br>
 		msg.channel.send('Pong.');
 		<br>
