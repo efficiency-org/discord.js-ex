@@ -11,3 +11,18 @@ To add the package to your own projects, go to your terminal and run `npm instal
 The discord.js-ex package requires the discord.js package, because it is an extension.
 ## Example Code
 **Note:** This package hasn't been published yet, so this is just how we plan to make it. This will probably change in the future.
+
+`
+const { Client } = require('discord.js-ex');
+const token = 'your-token';
+const client = new Client(token);
+const prefix = '!';
+client.once('ready', () => {
+	console.log(`Logged in as ${client.tag}!`);
+});
+client.on('msg', msg => {
+	if (msg.text.startsWith(`${prefix}ping`)) {
+		msg.channel.send('Pong.');
+	}
+});
+`
