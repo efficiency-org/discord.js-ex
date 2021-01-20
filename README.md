@@ -19,7 +19,7 @@ const bot = new Client(token);
 const client = bot.client;
 const prefix = '!';
 client.whenOnline(() => console.log(`Logged in as ${client.tag}!`));
-client.on('msg', msg => {
+client.whenMessageReceived(msg => {
 	if (msg.text.startsWith(`${prefix}ping`)) {
 		msg.sendBack('Pong.');
 	}
