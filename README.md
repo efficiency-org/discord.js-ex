@@ -12,17 +12,18 @@ You need to run `npm install discord.js` to install the `discord.js` package on 
 ## Example Code
 **Note:** This package hasn't been published yet, so this is just how we plan to make it. This will probably change in the future.
 
-
-	const { Client } = require('discord.js-ex');
-	const token = 'your-token';
-	const bot = new Client(token);
-	const client = bot.client;
-	const prefix = '!';
-	client.once('ready', () => {
-		console.log(`Logged in as ${client.tag}!`);
-	});
-	client.on('msg', msg => {
-		if (msg.text.startsWith(`${prefix}ping`)) {
-			msg.channel.send('Pong.');
-		}
-	});
+```js
+const { Client } = require('discord.js-ex');
+const token = 'your-token';
+const bot = new Client(token);
+const client = bot.client;
+const prefix = '!';
+client.once('ready', () => {
+	console.log(`Logged in as ${client.tag}!`);
+});
+client.on('msg', msg => {
+	if (msg.text.startsWith(`${prefix}ping`)) {
+		msg.sendBack('Pong.');
+	}
+});
+```
