@@ -16,10 +16,9 @@ You need to run `npm install discord.js` to install the `discord.js` package on 
 const { Client } = require('discord.js-ex');
 const token = 'your-token';
 const bot = new Client(token);
-const client = bot.client;
 const prefix = '!';
-client.whenOnline(() => console.log(`Logged in as ${client.tag}!`));
-client.whenMessageReceived(msg => {
+bot.whenOnline(() => console.log(`Logged in as ${bot.tag}!`));
+bot.whenMessageReceived(msg => {
 	if (msg.beginsWith(`${prefix}ping`)) {
 		msg.sendBack('Pong.');
 	}
