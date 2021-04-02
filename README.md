@@ -6,7 +6,12 @@ By making this package we don't intend to claim discord.js as ours, but we're tr
 We are looking for collaborators to help us make this package great.
 ## Installation
 Once the package is published, you can go to https://www.npmjs.com/package/discord.js-ex to get information about it. 
-To add the package to your own projects, go to your terminal and run `npm install discord.js-ex`. *See Required Packages.*
+To add the package to your own projects:
+- [ ] [Install Node.js.](https://nodejs.org/download/current/)
+- [ ] Go to your terminal and run `node -v`.
+- [ ] Go to your terminal and run `npm --version`.
+- [ ] *See Required Packages.*
+- [ ] Go to your terminal and run `npm install discord.js-ex`.
 ## Required Packages
 You need to run `npm install discord.js` to install the `discord.js` package on your desired project first, because this package uses `require('discord.js')`. 
 ## Example Code
