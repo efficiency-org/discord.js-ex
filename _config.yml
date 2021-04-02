@@ -10,7 +10,7 @@ description: > # this means to ignore newlines until "baseurl:"
 # DO NOT include the @ character, or else the build will fail!
 twitter_username: EfficiencyOrga1
 github_username: efficiency-org
-youtube_username: channel/UCRPD7dyNlIPohstB-3O-qhA
+youtube_username: UCRPD7dyNlIPohstB-3O-qhA
 
 show_excerpts: true # set to false to remove excerpts on the homepage
 theme: minima
