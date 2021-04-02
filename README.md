@@ -13,6 +13,7 @@ You need to run `npm install discord.js` to install the `discord.js` package on 
 **Note:** This package hasn't been published yet, so this is just how we plan to make it. This will probably change in the future.
 
 ```js
+// I don't need to use `require('discord.js');`, but I still need to install discord.js!
 const { Client } = require('discord.js-ex');
 const token = 'your-token';
 const bot = new Client(token);
