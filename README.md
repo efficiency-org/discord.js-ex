@@ -105,4 +105,4 @@ bot.on('message', msg => {
 bot.login(token); // Ugh, this is getting old. Is there an npm package that's better than this?
 ```
 
-Okay, we admit: It may only be punching out 2 (technically 3, if you don't include the top comment) lines of code, but if you look at the lines of code, how compact they are, how user-friendly they are, how well-laid-out they are, how simple they are, how easy they are, and how convenient they are, it has a **SUPERCALIFRAGILISTICEXPIALIDOCIOUS** reputation!
+Okay, we admit: It may only be punching out 2 (technically 3, if you don't include the top comment) lines of code, but if you look at the lines of code, how compact they are, how user-friendly they are, how well-laid-out they are, how simple they are, how easy they are, how convenient they are, and how snippet-basede they are, it has a **SUPERCALIFRAGILISTICEXPIALIDOCIOUS** reputation!
