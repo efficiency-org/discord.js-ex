@@ -39,4 +39,4 @@ bot.on('message', msg => if (msg.content.startsWith(`${prefix}ping`)) msg.channe
 bot.login(token);
 ```
 
-***Pretty compact, right?***
+***Pretty compact, right? This is even line 42! Amazing!***
