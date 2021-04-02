@@ -1,11 +1,11 @@
 # discord.js-ex
-An npm package to extend on https://www.npmjs.com/package/discord.js, making it simpler and more compact.
+An npm package to extend on <https://www.npmjs.com/package/discord.js>, making it simpler and more compact.
 ## About
 The npm package discord.js-ex is designed to make discord.js more compact and simple.
 By making this package we don't intend to claim discord.js as ours, but we're trying to make it better; with another package.
 We are looking for collaborators to help us make this package great.
 ## Installation
-Once the package is published, you can go to https://www.npmjs.com/package/discord.js-ex to get information about it. 
+Once the package is published, you can go to <https://www.npmjs.com/package/discord.js-ex> to get information about it. 
 To add the package to your own projects:
 - [Install Node.js.](https://nodejs.org/download/current/)
 - Go to your terminal and run `node -v`.
