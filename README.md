@@ -75,9 +75,9 @@ bot.whenMessageReceived(msg => {
 VS.
 
 ```js
-const fs = require('fs');
+const fs = require('fs'); // fs is a common module; c'mon, discord.js, just put an fs in your package's module.exports!
 const { Client, Collection } = require('discord.js');
-const { prefix, token } = require('./config.json');
+const { prefix, token } = require('./config.json'); // {"prefix":"!","token":"your-token"}
 const bot = new Client();
 bot.cmds = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
