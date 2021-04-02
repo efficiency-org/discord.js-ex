@@ -41,7 +41,7 @@ bot.login(token);
 
 ***Pretty compact, right? This is even line 42! Amazing!***
 
-But, oh, that's just the START! We plan to make this possible, too:
+But, oh, that's just the START! 1 line less? We plan to make this possible, too:
 
 ```js
 // I don't need to use `require('discord.js');`, but I still need to install discord.js!
@@ -105,4 +105,4 @@ bot.on('message', msg => {
 bot.login(token); // Ugh, this is getting old. Is there an npm package that's better than this?
 ```
 
-Okay, we admit: It may only be punching out 2 lines of code, but if you look at the lines of code, how compact they are, how user-friendly they are, how well-laid-out they are, how simple they are, how easy they are, and how convenient they are, it has a **SUPERCALIFRAGILISTICEXPIALIDOCIOUS** reputation!
+Okay, we admit: It may only be punching out 2 (technically 3, if you don't include the top comment) lines of code, but if you look at the lines of code, how compact they are, how user-friendly they are, how well-laid-out they are, how simple they are, how easy they are, and how convenient they are, it has a **SUPERCALIFRAGILISTICEXPIALIDOCIOUS** reputation!
