@@ -1,8 +1,10 @@
 class CompactMessageObject {
 	constructor(msg, client) {
 		this.uncompacted = msg;
-		this.text = msg.content;
+		this.text = this.uncompacted.content;
 		this.client = client;
+		this.auth = this.uncompacted.author;
+		this.webhookID = this.uncompacted.webhookID;
 	}
 	beginsWith(text) {
 		let stringText;
@@ -11,7 +13,7 @@ class CompactMessageObject {
 		} catch (error) {
 			throw new Error(error);
 		} finally {
-			if (this.text.startsWith(stringText)) return true; else return false;
+			return this.text.startsWith(stringText); // already boolean
 		}
 	}
 	sendBack(text) {
@@ -24,10 +26,21 @@ class CompactMessageObject {
 			this.uncompacted.channel.send(stringText);
 		}
 	}
+	sendBackWithMention(text) {
+		let stringText;
+		try {
+			stringText = text.toString();
+		} catch (error) {
+			throw new Error(error);
+		} finally {
+			this.uncompacted.reply(stringText);
+		}
+	}
 }
 
 module.exports = {
-	class Client {
+	fs: require('fs'),
+	Client: class Client {
 		constructor(token) {
 			this.token = token;
 			if (typeof this.token !== 'string') throw new Error(`Token must be of type string, not ${typeof this.token}.`);
@@ -42,6 +55,55 @@ module.exports = {
 		}
 		whenMessageReceived(execution) {
 			this.client.on('message', msg => execution(new CompactMessageObject(msg, this.client)));
+		}
+		retrieveCommandFiles() {
+			try {
+				const returnValue = require('fs').readdirSync('./commands').filter(file => file.endsWith('.js'));
+				return returnValue;
+			} catch (err) {
+				throw new Error(err);
+			}
+		}/*
+		retrieveCommandFilesWithinFolders() {
+			// ...
+		}*/
+		retrieveCommandFile(file) {
+			try {
+				const returnValue = require(`./commands/${file}`);
+				return returnValue;
+			} catch (err) {
+				throw new Error(err);
+			}
+		}
+		setBio(type, text) {
+			this.client.user.setActivity(text.toString(), { type: type.toString() });
+		}
+		getArgs(msg, prefix) {
+			/* ....................................................................................................................................................................................................... */ return msg.text.slice(prefix.length).trim().split(' ');
+		}
+		parseCmdN(args) {
+			return args.shift().toLowerCase();
+		}
+		error(msg, err, type) {
+			if (!type) {
+				console.error(err);
+				msg.sendBackWithMention('there was an error trying to execute that command!');
+			}
+		}
+	},
+	Collection: class Collection {
+		constructor() {
+			const { Collection } = require('discord.js');
+			this.uncompacted = new Collection();
+		}
+		s(key, value) {
+			this.uncompacted.set(key, value);
+		}
+		h(key) {
+			return this.uncompacted.has(key); // already boolean
+		}
+		g(key) {
+			return this.uncompacted.get(key); // We need to cover normal discord.js stuff being in classes, though!
 		}
 	}
 };
