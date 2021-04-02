@@ -83,7 +83,7 @@ bot.cmds = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
-	bot.cmds.set(command.name, command);
+  bot.cmds.set(command.name, command);
 }
 bot.once('ready', () => {
   bot.user.setActivity(`${prefix}help`, { type: 'WATCHING' });
