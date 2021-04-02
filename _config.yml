@@ -1,0 +1,16 @@
+title: Discord.js-Ex Guide
+author: efficiency-org
+email: efficiency.organization@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  An easier and more compact way to use Discord.js!
+  ...
+  But, how DO you use it? Let's find out!
+
+# social links
+# DO NOT include the @ character, or else the build will fail!
+twitter_username: EfficiencyOrga1
+github_username: efficiency-org
+youtube_username: Efficiency Organization
+
+show_excerpts: true # set to false to remove excerpts on the homepage
+theme: minima
