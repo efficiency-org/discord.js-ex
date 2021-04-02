@@ -67,7 +67,7 @@ bot.whenMessageReceived(msg => {
   try {
     cmd.exe(msg, args);
   } catch (err) {
-    bot.error(err); // No type necessary! The default is made just for this case.
+    bot.error(msg, err); // No type necessary! The default is made just for this case.
   }
 });
 ```
