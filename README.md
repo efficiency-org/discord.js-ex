@@ -99,7 +99,7 @@ bot.on('message', msg => {
     cmd.exe(msg, args);
   } catch (err) {
     console.error(err);
-    msg.reply('there was an error trying to execute that command!');
+    msg.reply(`:x: There was an error trying to execute that command! ${err}`);
   }
 });
 bot.login(token); // Ugh, this is getting old. Is there an npm package that's better than this?
