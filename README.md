@@ -59,7 +59,7 @@ bot.whenOnline(() => {
   console.log(`Logged in as ${bot.tag}!`);
 });
 bot.whenMessageReceived(msg => {
-  if (!msg.text.beginsWith(prefix) || msg.auth.bot || msg.webhookID) return;
+  if (!msg.beginsWith(prefix) || msg.auth.bot || msg.webhookID) return;
   const args = bot.getArgs(msg, prefix);
   const cmdName = bot.parseCmdN(args);
   if (!bot.cmds.h(cmdName)) return;
