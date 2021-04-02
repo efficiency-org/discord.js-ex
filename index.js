@@ -87,7 +87,7 @@ module.exports = {
 		error(msg, err, type) {
 			if (!type) {
 				console.error(err);
-				msg.sendBackWithMention('there was an error trying to execute that command!');
+				msg.sendBackWithMention(`:x: There was an error trying to execute that command! \`${err}\``);
 			}
 		}
 	},
