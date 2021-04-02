@@ -91,7 +91,7 @@ bot.once('ready', () => {
 });
 bot.on('message', msg => {
   if (!msg.content.startsWith(prefix) || msg.author.bot || msg.webhookID) return;
-  const args = msg.content.slice(prefix.length).trim().split(/ +/);
+  const args = msg.content.slice(prefix.length).trim().split(' ');
   const cmdName = args.shift().toLowerCase();
   if (!bot.cmds.has(cmdName)) return;
   const cmd = bot.cmds.get(cmdName);
