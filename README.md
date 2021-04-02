@@ -27,4 +27,16 @@ bot.whenOnline(() => console.log(`Logged in as ${bot.tag}!`));
 bot.whenMessageReceived(msg => if (msg.beginsWith(`${prefix}ping`)) msg.sendBack('Pong.'));
 ```
 
+VS.
+
+```js
+const { Client } = require('discord.js');
+const token = 'your-token';
+const bot = new Client();
+const prefix = '!';
+bot.once('ready', () => console.log(`Logged in as ${bot.user.tag}!`));
+bot.on('message', msg => if (msg.content.startsWith(`${prefix}ping`)) msg.channel.send('Pong.'));
+bot.login(token);
+```
+
 ***Pretty compact, right?***
