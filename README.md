@@ -87,20 +87,20 @@ for (const file of commandFiles) {
 }
 bot.once('ready', () => {
   bot.user.setActivity(`${prefix}help`, { type: 'WATCHING' });
-	console.log(`Logged in as ${bot.user.tag}!`);
+  console.log(`Logged in as ${bot.user.tag}!`);
 });
 bot.on('message', msg => {
-	if (!msg.content.startsWith(prefix) || msg.author.bot || msg.webhookID) return;
-	const args = msg.content.slice(prefix.length).trim().split(/ +/);
-	const cmdName = args.shift().toLowerCase();
+  if (!msg.content.startsWith(prefix) || msg.author.bot || msg.webhookID) return;
+  const args = msg.content.slice(prefix.length).trim().split(/ +/);
+  const cmdName = args.shift().toLowerCase();
   if (!bot.cmds.has(cmdName)) return;
-	const cmd = bot.cmds.get(cmdName);
-	try {
-		cmd.exe(msg, args);
-	} catch (err) {
-		console.error(err);
-		msg.reply('there was an error trying to execute that command!');
-	}
+  const cmd = bot.cmds.get(cmdName);
+  try {
+    cmd.exe(msg, args);
+  } catch (err) {
+    console.error(err);
+    msg.reply('there was an error trying to execute that command!');
+  }
 });
 bot.login(token); // Ugh, this is getting old. Is there an npm package that's better than this?
 ```
