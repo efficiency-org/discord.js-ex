@@ -55,7 +55,7 @@ for (const file of commandFiles) {
   bot.cmds.s(command.name, command);
 }
 bot.whenOnline(() => {
-  bot.setBio("watch", `${prefix}help`);
+  bot.setBio('watch', `${prefix}help`);
   console.log(`Logged in as ${bot.tag}!`);
 });
 bot.whenMessageReceived(msg => {
