@@ -77,7 +77,8 @@ class CompactMessageObject {
 }
 
 module.exports = {
-	fs: require('fs'),
+	fs: require('fs'), // recommended: const { ..., fs, ... } = require('discord.js-ex');
+	uncompacted: require('discord.js'), // recommended: const { ..., uncompacted: main-discord.js, ... } = require('discord.js-ex');
 	Client: class Client {
 		constructor(token) {
 			this.token = token;
