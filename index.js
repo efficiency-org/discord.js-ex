@@ -1,3 +1,11 @@
+class CompactChannelObject {
+	constructor(channel) {
+		this.uncompacted = channel;
+		this.type = this.uncompacted.type.toString();
+		this.server = this.uncompacted.guild;
+	}
+}
+
 class CompactMessageObject {
 	constructor(msg, client) {
 		this.uncompacted = msg;
@@ -5,6 +13,8 @@ class CompactMessageObject {
 		this.client = client;
 		this.auth = this.uncompacted.author;
 		this.webhookID = this.uncompacted.webhookID;
+		this.channel = new CompactChannelObject(this.uncompacted.channel);
+		this.server = this.uncompacted.guild;
 	}
 	beginsWith(text) {
 		let stringText;
@@ -35,6 +45,9 @@ class CompactMessageObject {
 		} finally {
 			this.uncompacted.reply(stringText);
 		}
+	}
+	getChannelType() {
+		return this.channel.type;
 	}
 }
 
