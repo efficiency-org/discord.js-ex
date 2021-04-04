@@ -15,7 +15,7 @@ To add the package to your own projects:
 ## Required Packages
 You need to run `npm install discord.js` to install the `discord.js` package on your desired project first, because this package uses `require('discord.js')`. 
 ## Example Code
-***Note:** ALL examples of code below are coded in but not tested yet due to this package not yet being published. Features may need to be tweaked before making it into production code for the first version of the package. [If you're viewing this README.md file on GitHub](https://github.com/efficiency-org/discord.js-ex/blob/master/README.md), you can click on any reference to something in this package to view its definition inside the actual code of this package.*
+***Note:** ALL examples of code below are coded in but not tested yet due to this package not yet being published. Features may need to be tweaked before making it into production code for the first version of the package. [If you're viewing this README.md file on GitHub](https://github.com/efficiency-org/discord.js-ex/blob/master/README.md), you can click on any function or reference to a class in this package to view its definition inside the actual code of this package.*
 
 ```js
 // I don't need to use `require('discord.js');`, but I still need to install discord.js!
