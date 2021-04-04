@@ -49,6 +49,9 @@ class CompactMessageObject {
 	getChannelType() {
 		return this.channel.type;
 	}
+	isDM() {
+		if (this.getChannelType() === 'dm') return true; else return false;
+	}
 }
 
 module.exports = {
