@@ -1,8 +1,28 @@
+class CompactUserObject {
+	constructor(user) {
+		this.uncompacted = user;
+		this.username = this.uncompacted.username;
+		this.bot = this.uncompacted.bot;
+		this.id = this.uncompacted.id;
+	}
+}
+
+class CompactMemberObject {
+	constructor(member) {
+		this.uncompacted = member;
+		this.username = this.uncompacted.username;
+		this.user = new CompactUserObject(this.uncompacted.user);
+		this.bot = this.user.bot;
+		this.id = this.uncompacted.id;
+	}
+}
+
 class CompactChannelObject {
 	constructor(channel) {
 		this.uncompacted = channel;
 		this.type = this.uncompacted.type.toString();
 		this.server = this.uncompacted.guild;
+		this.id = this.uncompacted.id;
 	}
 }
 
@@ -11,10 +31,12 @@ class CompactMessageObject {
 		this.uncompacted = msg;
 		this.text = this.uncompacted.content;
 		this.client = client;
-		this.auth = this.uncompacted.author;
+		this.auth = new CompactUserObject(this.uncompacted.author);
+		this.mem = new CompactMemberObject(this.uncompacted.member);
 		this.webhookID = this.uncompacted.webhookID;
 		this.channel = new CompactChannelObject(this.uncompacted.channel);
 		this.server = this.uncompacted.guild;
+		this.id = this.uncompacted.id;
 	}
 	beginsWith(text) {
 		let stringText;
