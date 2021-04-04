@@ -32,7 +32,7 @@ class CompactMessageObject {
 		this.text = this.uncompacted.content;
 		this.client = client;
 		this.auth = new CompactUserObject(this.uncompacted.author);
-		this.mem = new CompactMemberObject(this.uncompacted.member);
+		this.mem = if (!this.isDM()) new CompactMemberObject(this.uncompacted.member); else null;
 		this.webhookID = this.uncompacted.webhookID;
 		this.channel = new CompactChannelObject(this.uncompacted.channel);
 		this.server = this.uncompacted.guild;
