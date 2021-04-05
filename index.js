@@ -125,7 +125,7 @@ class CompactMessageObject {
 	constructor(msg) {
 		this.uncompacted = msg;
 		this.text = this.uncompacted.content;
-		this.client = this.uncompacted.client;
+		this.bot = this.uncompacted.client;
 		this.auth = new CompactUserObject(this.uncompacted.author);
 		this.mem = if (!this.isDM()) new CompactMemberObject(this.uncompacted.member); else null;
 		this.webhookID = this.uncompacted.webhookID;
@@ -191,6 +191,10 @@ class CompactMessageObject {
 	}
 	isDM() {
 		if (this.getChannelType() === 'dm') return true; else return false;
+	}
+	edit(newContent) {
+		const refinedNewContent = newContent.replace('${text}', this.text);
+		if (this.auth.id === this.bot.id) this.uncompacted.edit(); else throw new Error(`Tried to edit message containing ${this.cleanText} sent by ${this.auth} in ${this.server.name} to be ${refinedNewContent}, but must be the sender of that message.`);
 	}
 }
 
