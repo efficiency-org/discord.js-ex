@@ -133,7 +133,7 @@ module.exports = {
 			if (number % 2) /* odd */ return false; else /* even */ return true;
 		}
 		numberIsOdd(number) {
-			return !this.numberIsEven(number) // opposite of this.numberIsEven(number)
+			return !this.numberIsEven(number); // opposite of this.numberIsEven(number)
 		}
 	},
 	Collection: class Collection {
