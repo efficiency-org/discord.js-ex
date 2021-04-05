@@ -129,6 +129,12 @@ module.exports = {
 				msg.sendBackWithMention(`:x: There was an error trying to execute that command! \`${err}\``);
 			}
 		}
+		numberIsEven(number) {
+			if (number % 2) /* odd */ return false; else /* even */ return true;
+		}
+		numberIsOdd(number) {
+			return !this.numberIsEven(number) // opposite of this.numberIsEven(number)
+		}
 	},
 	Collection: class Collection {
 		constructor() {
