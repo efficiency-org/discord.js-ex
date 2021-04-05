@@ -1,3 +1,5 @@
+// https://discord.js.org/#/docs/main/stable/general/welcome
+
 class CompactUserObject {
 	constructor(user) {
 		this.uncompacted = user;
@@ -26,17 +28,133 @@ class CompactChannelObject {
 	}
 }
 
+class CompactVoiceStateObject {
+	constructor(voiceState) {
+		this.uncompacted = voiceState;
+		this.channel = new CompactChannelObject(this.uncompacted.channel);
+		this.channelID = this.uncompacted.channelID;
+		// this.myConnection = new CompactVoiceConnectionObject(this.uncompacted.connection);
+		this.deaf = this.uncompacted.deaf;
+		this.server = new CompactServerObject(this.uncompacted.guild);
+		this.me = this.server.me;
+		this.id = this.uncompacted.id;
+		this.member = new CompactMemberObject(this.uncompacted.member);
+		this.muted = this.uncompacted.mute;
+		this.memDeaf = this.uncompacted.selfDeaf;
+		this.memMuted = this.uncompacted.selfMute;
+		this.video = this.uncompacted.selfVideo;
+		this.servDeaf = this.uncompacted.serverDeaf;
+		this.servMuted = this.uncompacted.serverMute;
+		this.sessionID = this.uncompacted.sessionID;
+		this.speaking = this.uncompacted.speaking;
+		this.streaming = this.uncompacted.streaming;
+		if (this.member.id !== this.me.id) this.myVoiceState = new CompactVoiceStateObject(this.uncompacted.connection.status); else this.myVoiceState = this;
+	}
+	kick(reason) {
+		this.uncompacted.kick(reason ?? 'Unspecified');
+	}
+        setChannel(channel, reason) {
+		if (channel) this.uncompacted.setChannel(channel.uncompacted, reason ?? 'Unspecified'); else this.uncompacted.setChannel(null, reason ?? 'Unspecified');
+	}
+	deafen(reason) {
+		this.uncompacted.setDeaf(true, reason ?? 'Unspecified');
+	}
+	undeafen(reason) {
+		this.uncompacted.setDeaf(false, reason ?? 'Unspecified');
+	}
+	toggleDeafen(reason) {
+		this.uncompacted.setDeaf(!this.deaf, reason ?? 'Unspecified');
+	}
+	mute(reason) {
+		this.uncompacted.setMute(true, reason ?? 'Unspecified');
+	}
+	unmute(reason) {
+		this.uncompacted.setMute(false, reason ?? 'Unspecified');
+	}
+	toggleMute(reason) {
+		this.uncompacted.setMute(!this.muted, reason ?? 'Unspecified');
+	}
+	deafenMe(reason) {
+		this.uncompacted.setSelfDeaf(true, reason ?? 'Unspecified');
+	}
+	undeafenMe(reason) {
+		this.uncompacted.setSelfDeaf(false, reason ?? 'Unspecified');
+	}
+	toggleMyDeafen(reason) {
+		this.uncompacted.setSelfDeaf(!this.myVoiceState.deaf, reason ?? 'Unspecified');
+	}
+	muteMe(reason) {
+		this.uncompacted.setSelfMute(true, reason ?? 'Unspecified');
+	}
+	unmuteMe(reason) {
+		this.uncompacted.setSelfMute(false, reason ?? 'Unspecified');
+	}
+	toggleMyMute(reason) {
+		this.uncompacted.setSelfMute(!this.myVoiceState.muted, reason ?? 'Unspecified');
+	}
+}
+
+class CompactServerObject {
+	constructor(server) {
+		this.uncompacted = server;
+		this.isUp = this.uncompacted.available;
+		this.name = this.uncompacted.name;
+		this.acronym = this.uncompacted.nameAcronym;
+		this.verified = this.uncompacted.verified;
+		this.id = this.uncompacted.id;
+		this.me = new CompactMemberObject(this.uncompacted.me);
+		this.myID = this.me.id;
+		this.myUser = this.me.user;
+		this.owner = new CompactMemberObject(this.uncompacted.owner);
+		this.ownerUser = this.owner.user;
+		this.ownerID = this.uncompacted.ownerID;
+		this.area = this.uncompacted.region;
+		this.myJoin = this.uncompacted.joinedAt;
+		this.myJoinTimestamp = this.uncompacted.joinedTimestamp;
+		this.myVoiceState = new CompactVoiceStateObject(this.uncompacted.voice);
+	}
+	check() {
+		if (this.isUp) return true; else return false;
+	}
+	leave() {
+		if (this.check()) this.uncompacted.leave(); else throw new Error(`Cannot leave server ${this.name}: Server not available due to outage`);
+	}
+}
+
 class CompactMessageObject {
-	constructor(msg, client) {
+	constructor(msg) {
 		this.uncompacted = msg;
 		this.text = this.uncompacted.content;
-		this.client = client;
+		this.client = this.uncompacted.client;
 		this.auth = new CompactUserObject(this.uncompacted.author);
 		this.mem = if (!this.isDM()) new CompactMemberObject(this.uncompacted.member); else null;
 		this.webhookID = this.uncompacted.webhookID;
 		this.channel = new CompactChannelObject(this.uncompacted.channel);
-		this.server = this.uncompacted.guild;
+		this.server = new CompactServerObject(this.uncompacted.guild);
 		this.id = this.uncompacted.id;
+		this.cleanText = this.uncompacted.cleanContent;
+		this.created = this.uncompacted.createdAt;
+		this.createdTimestamp = this.uncompacted.createdTimestamp;
+		this.deletable = this.uncompacted.deletable;
+		this.gone = this.uncompacted.deleted;
+		this.editable = this.uncompacted.editable;
+		this.lastEdited = this.uncompacted.editedAt;
+		this.lastEditedTimestamp = this.uncompacted.editedTimestamp;
+		this.edits = this.uncompacted.edits;
+		this.embeds = this.uncompacted.embeds;
+		this.flags = this.uncompacted.flags;
+		// this.mentions = new CompactMentionsObject(this.uncompacted.mentions);
+		this.nonce = this.uncompacted.nonce;
+		this.partial = this.uncompacted.partial;
+		this.pinnable = this.uncompacted.pinnable;
+		this.pinned = this.uncompacted.pinned;
+		// this.reacts = new CompactReactObject(this.uncompacted.reactions);
+		this.crosspostable = this.uncompacted.crosspostable;
+		// this.ref = new CompactRefObject(this.uncompacted.reference);
+		this.sys = this.uncompacted.system; // a message sent from Discord itself, e.g. `<b>${username}</b> sent a message to channel. <a href="xxx"><b>See all the pins.</b></a>`
+		this.tts = this.uncompacted.tts;
+		this.type = this.uncompacted.type;
+		this.jumpURL = this.uncompacted.url;
 	}
 	beginsWith(text) {
 		let stringText;
@@ -93,7 +211,7 @@ module.exports = {
 			this.client.once('ready', execution());
 		}
 		whenMessageReceived(execution) {
-			this.client.on('message', msg => execution(new CompactMessageObject(msg, this.client)));
+			this.client.on('message', msg => execution(new CompactMessageObject(msg)));
 		}
 		retrieveCommandFiles() {
 			try {
