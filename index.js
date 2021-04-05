@@ -130,7 +130,7 @@ module.exports = {
 			}
 		}
 		numberIsEven(number) {
-			if (number % 2) /* odd */ return false; else /* even */ return true;
+			if (Number.parseFloat(number % 2)) /* odd */ return false; else /* even */ return true;
 		}
 		numberIsOdd(number) {
 			return !this.numberIsEven(number); // opposite of this.numberIsEven(number)
