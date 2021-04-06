@@ -1,5 +1,8 @@
 # discord.js-ex
 An npm package to extend on <https://www.npmjs.com/package/discord.js>, making it simpler and more compact.
+
+- [View on GitHub](https://github.com/efficiency-org/discord.js-ex/blob/master/README.md)
+- [View on GitHub Pages](https://efficiency-org.github.io/discord.js-ex/)
 ## About
 The npm package discord.js-ex is designed to make discord.js more compact and simple.
 By making this package we don't intend to claim discord.js as ours, but we're trying to make it better; with another package.
