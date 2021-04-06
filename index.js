@@ -151,7 +151,7 @@ class CompactMessageObject {
 		// this.reacts = new CompactReactObject(this.uncompacted.reactions);
 		this.crosspostable = this.uncompacted.crosspostable;
 		// this.ref = new CompactRefObject(this.uncompacted.reference);
-		this.sys = this.uncompacted.system; // a message sent from Discord itself, e.g. `<b>${username}</b> sent a message to channel. <a href="xxx"><b>See all the pins.</b></a>`
+		this.sys = this.uncompacted.system; // a message sent from Discord itself, e.g. `<b>${username}</b> pinned <b><a href="xxx">a message</a></b> to this channel. <a href="xxx"><b>See all the pins.</b></a>`
 		this.tts = this.uncompacted.tts;
 		this.type = this.uncompacted.type;
 		this.jumpURL = this.uncompacted.url;
