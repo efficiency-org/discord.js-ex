@@ -194,7 +194,7 @@ class CompactServerObject {
             return true;
         }
         set in(value) {
-            if (value.toString === 'false') this.leave(); else if (value.toString() === 'true') throw new Error('Wanted to do impossible operation: Wanted to join server'); else throw new Error('Wanted to do impossible operation: Wanted to an unhandleable operation');
+            if (value.toString === 'false') this.leave(); else if (value.toString() === 'true') throw new Error('Wanted to do impossible operation: Wanted to join server'); else throw new Error(`Wanted to do impossible operation: Wanted to do unhandleable operation "${value.toString()}"`);
         }
 }
 
