@@ -23,8 +23,79 @@ class CompactChannelObject {
 	constructor(channel) {
 		this.uncompacted = channel;
 		this.type = this.uncompacted.type.toString();
-		this.server = this.uncompacted.guild;
+		this.server = if (this.type !== 'dm') this.uncompacted.guild; else null;
 		this.id = this.uncompacted.id;
+	}
+}
+
+class CompactClientObject {
+	constructor(client) {
+		this.uncompacted = client;
+	}
+}
+
+class CompactVoiceStatusObject {
+	constructor(status) {
+		this.uncompacted = status;
+		this.statusList = {
+			CONNECTED: {
+				number: 0,
+				string: 'CONNECTED'
+			},
+			CONNECTING: {
+				number: 1,
+				string: 'CONNECTING'
+			},
+			AUTHENTICATING: {
+				number: 2,
+				string: 'AUTHENTICATING'
+			},
+			RECONNECTING: {
+				number: 3,
+				string: 'RECONNECTING'
+			},
+			DISCONNECTED: {
+				number: 4,
+				string: 'DISCONNECTED'
+			}
+		};
+		this.statusNumberList = {
+			/* [this.statusList[0]]: this.statusList[0].number,
+			[this.statusList[1]]: this.statusList[1].number,
+			[this.statusList[2]]: this.statusList[2].number,
+			[this.statusList[3]]: this.statusList[3].number,
+			[this.statusList[4]]: this.statusList[4].number */
+		};
+		this.statusStringList = {
+			/* [this.statusList[0]]: this.statusList[0].string,
+			[this.statusList[1]]: this.statusList[1].string,
+			[this.statusList[2]]: this.statusList[2].string,
+			[this.statusList[3]]: this.statusList[3].string,
+			[this.statusList[4]]: this.statusList[4].string */
+		};
+		for (const i = 0; i <= this.statusList.length - 1; i++) {
+			this.statusNumberList[Object.keys(this.statusList)[i]] = this.statusList[i].number;
+			this.statusStringList[Object.keys(this.statusList)[i]] = this.statusList[i].string;
+		}
+		for (const i = 0; i <= this.statusList.length - 1; i++) if (this.uncompacted === this.statusNumberList[i]) {
+				this.stat = this.statusStringList[i];
+				break;
+			}
+	}
+}
+
+class CompactVoiceConnectionObject {
+	constructor(connection) {
+		this.uncompacted = connection;
+		this.channel = new CompactChannelObject(this.uncompacted.channel);
+		this.me = new CompactClientObject(this.uncompacted.client);
+		// this.dispatcher = new CompactStreamDispatcherObject(this.uncompacted.dispatcher);
+                // this.player = new CompactPlayerObject(this.uncompacted.player);
+		// this.receiver = new CompactReceiverObject(this.uncompacted.receiver);
+		// this.speaking = new CompactSpeakingObject(this.uncompacted.speaking);
+		this.stat = new CompactVoiceStatusObject(this.uncompacted.status).stat;
+		this.voiceState = new CompactVoiceStateObject(this.uncompacted.voice);
+		// this.manager = new CompactClientVoiceManagerObject(this.uncompacted.voiceManager);
 	}
 }
 
@@ -33,7 +104,7 @@ class CompactVoiceStateObject {
 		this.uncompacted = voiceState;
 		this.channel = new CompactChannelObject(this.uncompacted.channel);
 		this.channelID = this.uncompacted.channelID;
-		// this.myConnection = new CompactVoiceConnectionObject(this.uncompacted.connection);
+		this.myConnection = new CompactVoiceConnectionObject(this.uncompacted.connection);
 		this.deaf = this.uncompacted.deaf;
 		this.server = new CompactServerObject(this.uncompacted.guild);
 		this.me = this.server.me;
