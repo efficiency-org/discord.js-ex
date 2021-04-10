@@ -174,7 +174,7 @@ class CompactServerObject {
 		this.verified = this.uncompacted.verified;
 		this.id = this.uncompacted.id;
 		this.me = new CompactMemberObject(this.uncompacted.me);
-		this.myID = this.me.id;
+		this.myID = this.me.id.toString();
 		this.myUser = this.me.user;
 		this.owner = new CompactMemberObject(this.uncompacted.owner);
 		this.ownerUser = this.owner.user;
@@ -190,6 +190,12 @@ class CompactServerObject {
 	leave() {
 		if (this.check()) this.uncompacted.leave(); else throw new Error(`Cannot leave server ${this.name}: Server not available due to outage`);
 	}
+        get in() {
+            return true;
+        }
+        set in(value) {
+            if (value.toString === 'false') this.leave(); else if (value.toString() === 'true') throw new Error('Wanted to do impossible operation: Wanted to join server'); else throw new Error('Wanted to do impossible operation: Wanted to an unhandleable operation');
+        }
 }
 
 class CompactMessageObject {
