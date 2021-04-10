@@ -271,7 +271,7 @@ class CompactMessageObject {
 	}
 	edit(newContent) {
 		const refinedNewContent = newContent.replace('${text}', this.text);
-		if (this.auth.id === this.bot.id) this.uncompacted.edit(); else throw new Error(`Tried to edit message containing ${this.cleanText} sent by ${this.auth} in ${this.server.name} to be ${refinedNewContent}, but must be the sender of that message.`);
+		if (this.auth.id === this.bot.id) this.uncompacted.edit(refinedNewContent); else throw new Error(`Tried to edit message containing ${this.cleanText} sent by ${this.auth} in ${this.server.name} to be ${refinedNewContent}, but must be the sender of that message.`);
 	}
 }
 
