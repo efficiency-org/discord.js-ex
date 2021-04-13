@@ -334,6 +334,22 @@ module.exports = {
 		numberIsOdd(number) {
 			return !this.numberIsEven(number); // opposite of this.numberIsEven(number)
 		}
+		dynamicIFile(file, object, after) {
+			if (typeof file !== 'string') throw new Error(`bot.dynamicIFile: file provided was not a string, and instead ${typeof file}.`);
+			if (typeof object !== 'object') throw new Error(`bot.dynamicIFile: object provided is not an object, and instead ${typeof file}.`);
+			if (typeof after !== 'function') throw new Error(`bot.dynamicIFile: after provided is not a function, and instead ${typeof after}.`);
+			const refinedObject = {};
+			Object.keys(object).forEach(key => {
+				if (key.toString() === 'd') {
+					refinedObject.default = object[key.toString()];
+					break;
+				}
+				refinedObject[key.toString()] = object[key.toString()];
+			});
+			import(file.toString())
+				.then(refinedObject => after());
+			}
+		}
 	},
 	Collection: class Collection {
 		constructor() {
