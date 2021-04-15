@@ -1,17 +1,69 @@
+// Execute in strict mode
+'use strict'
+
 // https://discord.js.org/#/docs/main/stable/general/welcome
 
-class CompactUserObject {
+// Require discord.js
+const { Client, Collection } = require('discord.js');
+
+// --- BELOW HELPED BY https://stackoverflow.com/a/29926193/13900902 ---
+
+function isMap(o) {
+    try {
+        Map.prototype.has.call(o); // throws if o is not an object or has no [[MapData]]
+        return true;
+    } catch(e) {
+        return false;
+    }
+}
+
+function isSet(o) {
+    try {
+        Set.prototype.has.call(o); // throws if o is not an object or has no [[SetData]]
+        return true;
+    } catch(e) {
+        return false;
+    }
+}
+
+// --- ABOVE HELPED BY https://stackoverflow.com/a/29926193/13900902 ---
+
+function inMap(map, key) {
+	if (!isMap(map)) throw new Error('Internal error: Wanted an object to be a Map!');
+	if (map.get(key) != null /* Hint: null == undefined, but not null !== undefined */) return true; else return false;
+}
+
+class CompactBase {
+	constructor(uncompacted) {
+		this.uncompacted = uncompacted;
+		this.trueData = new Map([]);
+	}
+	get data() {
+		return this.trueData;
+	}
+	set data(key, value, noOverride) {
+		if (!noOverride) {
+			this.trueData.set(key, value);
+			return this.trueData.get(key); // Return how the Map truly handles the new value
+		} else if (!inMap(this.trueData, key)) {
+			this.trueData.set(key, value);
+			return this.trueData.get(key); // Return how the Map truly handles the new value
+		} else return this.trueData.get(key); // Return how the Map is, unchanged
+	}
+}
+
+class CompactUserObject extends CompactBase {
 	constructor(user) {
-		this.uncompacted = user;
+		super(user);
 		this.username = this.uncompacted.username;
 		this.bot = this.uncompacted.bot;
 		this.id = this.uncompacted.id;
 	}
 }
 
-class CompactMemberObject {
+class CompactMemberObject extends CompactBase {
 	constructor(member) {
-		this.uncompacted = member;
+		super(member);
 		this.username = this.uncompacted.username;
 		this.user = new CompactUserObject(this.uncompacted.user);
 		this.bot = this.user.bot;
@@ -19,24 +71,24 @@ class CompactMemberObject {
 	}
 }
 
-class CompactChannelObject {
+class CompactChannelObject extends CompactBase {
 	constructor(channel) {
-		this.uncompacted = channel;
+		super(channel);
 		this.type = this.uncompacted.type.toString();
 		this.server = if (this.type !== 'dm') this.uncompacted.guild; else null;
 		this.id = this.uncompacted.id;
 	}
 }
 
-class CompactClientObject {
+class CompactClientObject extends CompactBase {
 	constructor(client) {
-		this.uncompacted = client;
+		super(client);
 	}
 }
 
-class CompactVoiceStatusObject {
+class CompactVoiceStatusObject extends CompactBase {
 	constructor(status) {
-		this.uncompacted = status;
+		super(status);
 		this.statusList = {
 			CONNECTED: {
 				number: 0,
@@ -84,9 +136,9 @@ class CompactVoiceStatusObject {
 	}
 }
 
-class CompactVoiceConnectionObject {
+class CompactVoiceConnectionObject extends CompactBase {
 	constructor(connection) {
-		this.uncompacted = connection;
+		super(connection);
 		this.channel = new CompactChannelObject(this.uncompacted.channel);
 		this.me = new CompactClientObject(this.uncompacted.client);
 		// this.dispatcher = new CompactStreamDispatcherObject(this.uncompacted.dispatcher);
@@ -99,9 +151,9 @@ class CompactVoiceConnectionObject {
 	}
 }
 
-class CompactVoiceStateObject {
+class CompactVoiceStateObject extends CompactBase {
 	constructor(voiceState) {
-		this.uncompacted = voiceState;
+		super(voiceState);
 		this.channel = new CompactChannelObject(this.uncompacted.channel);
 		this.channelID = this.uncompacted.channelID;
 		this.myConnection = new CompactVoiceConnectionObject(this.uncompacted.connection);
@@ -165,9 +217,9 @@ class CompactVoiceStateObject {
 	}
 }
 
-class CompactServerObject {
+class CompactServerObject extends CompactBase {
 	constructor(server) {
-		this.uncompacted = server;
+		super(server);
 		this.isUp = this.uncompacted.available;
 		this.name = this.uncompacted.name;
 		this.acronym = this.uncompacted.nameAcronym;
@@ -198,9 +250,9 @@ class CompactServerObject {
         }
 }
 
-class CompactMessageObject {
+class CompactMessageObject extends CompactBase {
 	constructor(msg) {
-		this.uncompacted = msg;
+		super(msg);
 		this.text = this.uncompacted.content;
 		this.bot = this.uncompacted.client;
 		this.auth = new CompactUserObject(this.uncompacted.author);
@@ -278,15 +330,14 @@ class CompactMessageObject {
 module.exports = {
 	fs: require('fs'), // recommended: const { ..., fs, ... } = require('discord.js-ex');
 	uncompacted: require('discord.js'), // recommended: const { ..., uncompacted: Discord, ... } = require('discord.js-ex');
-	Client: class Client {
+	Client: class Client extends CompactBase {
 		constructor(token) {
+			if (typeof token !== 'string') throw new Error(`Token must be of type string, not ${typeof token}.`);
+			super(new Client());
 			this.token = token;
-			if (typeof this.token !== 'string') throw new Error(`Token must be of type string, not ${typeof this.token}.`);
-			const { Client } = require('discord.js');
-			this.client = new Client();
-			this.uncompacted = this.client;
+			this.client = new CompactClientObject(this.uncompacted);
 
-			this.client.login(this.token);
+			this.uncompacted.login(this.token);
 		}
 		whenOnline(execution) {
 			this.client.once('ready', execution());
@@ -354,10 +405,9 @@ module.exports = {
 			return require(file.toString());
 		}
 	},
-	Collection: class Collection {
+	Collection: class Collection extends CompactBase {
 		constructor() {
-			const { Collection } = require('discord.js');
-			this.uncompacted = new Collection();
+			super(new Collection());
 		}
 		s(key, value) {
 			this.uncompacted.set(key, value);
