@@ -1,5 +1,5 @@
 // Execute in strict mode
-'use strict'
+'use strict';
 
 // https://discord.js.org/#/docs/main/stable/general/welcome
 
