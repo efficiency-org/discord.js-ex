@@ -41,7 +41,7 @@ class CompactBase {
 	get data() {
 		return this.trueData;
 	}
-	set data(key, value, noOverride) {
+	set data({ key, value, noOverride }) {
 		if (!noOverride) {
 			this.trueData.set(key, value);
 			return this.trueData.get(key); // Return how the Map truly handles the new value
