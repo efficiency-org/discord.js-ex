@@ -117,7 +117,7 @@ class CompactClientObject extends CompactBase {
 		this.user = new CompactUserObject(this.uncompacted.user);
 		// this.users = new CompactUserManagerObject(this.uncompacted.users);
 		// this.voice = new CompactClientVoiceManagerObject(this.uncompacted.voice);
-		// this.ws = new CompactWsManagerObject(this.uncompacted.ws);
+		this.ws = new CompactWsManagerObject(this.uncompacted.ws);
 	}
 }
 
