@@ -1,10 +1,22 @@
+// index.js
+// https://discord.js.org/#/docs/main/stable/general/welcome
+// https://discordjs.guide
+
 // Execute in strict mode
 'use strict';
 
-// https://discord.js.org/#/docs/main/stable/general/welcome
-
-// Require discord.js
+// Require discord.js and other modules
+// Installed modules
+// discord.js
+const UncompactedDiscord = require('discord.js');
 const { Client, Collection } = require('discord.js');
+// node-fetch
+const fetch = require('node-fetch');
+// Built-in modules
+// fs
+const fs = require('fs');
+// querystring
+const querystring = require('querystring');
 
 // --- BELOW HELPED BY https://stackoverflow.com/a/29926193/13900902 ---
 
@@ -80,9 +92,32 @@ class CompactChannelObject extends CompactBase {
 	}
 }
 
+class CompactWsManagerObject extends CompactBase {
+	constructor(ws) {
+		super(ws);
+		this.bot = new CompactClientObject(this.uncompacted.client);
+		this.gateway = this.uncompacted.gateway;
+		this.ping = this.uncompacted.ping;
+		// this.shards = new CompactShardsObject(this.uncompacted.shards);
+		this.stat = this.uncompact.status;
+	}
+}
+
 class CompactClientObject extends CompactBase {
 	constructor(client) {
 		super(client);
+		// this.channels = new CompactChannelManagerObject(this.uncompacted.channels);
+		// this.emoji = new CompactServerEmojiManagerObject(this.uncompacted.emojis);
+		// this.servers = new CompactServerManagerObject(this.uncompacted.guilds);
+		// this.options = new CompactOptionsObject(this.uncompacted.options);
+		this.lastReady = this.uncompacted.readyAt;
+		// this.shard = new CompactShardClientUtilObject(this.uncompacted.shard);
+		this.token = this.uncompacted.token; // **************************************************KEEP PRIVATE**************************************************
+		this.uptime = this.uncompacted.uptime; // in ms
+		this.user = new CompactUserObject(this.uncompacted.user);
+		// this.users = new CompactUserManagerObject(this.uncompacted.users);
+		// this.voice = new CompactClientVoiceManagerObject(this.uncompacted.voice);
+		// this.ws = new CompactWsManagerObject(this.uncompacted.ws);
 	}
 }
 
@@ -328,14 +363,13 @@ class CompactMessageObject extends CompactBase {
 }
 
 module.exports = {
-	fs: require('fs'), // recommended: const { ..., fs, ... } = require('discord.js-ex');
-	uncompacted: require('discord.js'), // recommended: const { ..., uncompacted: Discord, ... } = require('discord.js-ex');
-	Client: class Client extends CompactBase {
+	fs, // recommended: const { ..., fs, ... } = require('discord.js-ex');
+	UncompactedDiscord, // recommended: const { ..., UncompactedDiscord, ... } = require('discord.js-ex');
+	Client: class Client extends CompactClientObject {
 		constructor(token) {
 			if (typeof token !== 'string') throw new Error(`Token must be of type string, not ${typeof token}.`);
 			super(new Client());
 			this.token = token;
-			this.client = new CompactClientObject(this.uncompacted);
 
 			this.uncompacted.login(this.token);
 		}
@@ -347,7 +381,7 @@ module.exports = {
 		}
 		retrieveCommandFiles() {
 			try {
-				const returnValue = require('fs').readdirSync('./commands').filter(file => file.endsWith('.js'));
+				const returnValue = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 				return returnValue;
 			} catch (err) {
 				throw new Error(err);
@@ -379,6 +413,13 @@ module.exports = {
 				msg.sendBackWithMention(`:x: There was an error trying to execute that command! \`${err}\``);
 			}
 		}
+		debug() {
+			this.uncompacted.on('debug', console.debug);
+		}
+		trackErrors() {
+			this.uncompacted.on('shardError', err => console.error('A websocket connection encountered an error:', err));
+			process.on('unhandledRejection', err => console.error('Unhandled promise rejection:', err));
+		}
 		numberIsEven(number) {
 			if (Number.parseFloat(number % 2)) /* odd */ return false; else /* even */ return true;
 		}
@@ -403,6 +444,38 @@ module.exports = {
 		normalRequire(file) {
 			if (typeof file !== 'string') throw new Error(`bot.normalRequire: file provided was not a string, and instead ${typeof file}.`);
 			return require(file.toString());
+		}
+		range(num, num1, num2, mode) {
+			let refinedNum;
+			let refinedNum1;
+			let refinedNum2;
+			let refinedMode;
+			if (num == null || Number.parseFloat(num) == null || Number.isNaN(Number.parseFloat(num))) throw new Error(`bot.range: Wanted to check if num (${num}) was in range num1 (${num1})-num2 (${num2}), but num (${num}) was NaN or was undefined.`); else refinedNum = Number.parseFloat(num);
+			if (num1 == null || Number.parseFloat(num1) == null || Number.isNaN(Number.parseFloat(num1))) throw new Error(`bot.range: Wanted to check if num (${num}) was in range num1 (${num1})-num2 (${num2}), but num1 (${num1}) was NaN or was undefined.`); else refinedNum1 = Number.parseFloat(num1);
+			if (num2 == null || Number.parseFloat(num2) == null || Number.isNaN(Number.parseFloat(num2))) throw new Error(`bot.range: Wanted to check if num (${num}) was in range num1 (${num1})-num2 (${num2}), but num2 (${num2}) was NaN or was undefined.`); else refinedNum2 = Number.parseFloat(num2);
+			if (mode == null || Number.parseInt(mode) == null || Number.isNaN(Number.parseInt(mode))) refinedMode = 0; else refinedMode = Number.parseInt(mode);
+			// mode 1: true if num is between num1 and num2, else false
+			if (refinedMode === 1) if (num > num1 && num < num2) return true; else return false;
+			// mode 2: true if num is num1 or greater and under num2, else false
+			if (refinedMode === 2) if (num >= num1 && num < num2) return true; else return false;
+			// mode 3: true if num is num2 or under and over num1, else false
+			if (refinedMode === 3) if (num > num1 && num <= num2) return true; else return false;
+			// mode 0: true if num is num1, num2, or in between, else false (default)
+			if (num >= num1 && num <= num2) return true; else return false;
+		}
+		async contactAPI(url, args) {
+			let res;
+			let file;
+			let message;
+			let list;
+			if (url !== 'cat' && url !== 'dog' && url !== 'urban') res = await fetch(url.toString()).then(response => response.json());
+			if (url === 'cat') { file } = await fetch('https://aws.random.cat/meow').then(response => response.json());
+			if (url === 'dog') { message } = await fetch('https://dog.ceo/api/breeds/image/random').then(response => response.json());
+			if (url === 'urban' && args.length) {
+				const query = querystring.stringify({ term: args.join(' ') });
+				{ list } = await fetch(`https://api.urbandictionary.com/v0/define?${query}`).then(response => response.json());
+			}
+			return ((res ?? file) ?? message) ?? list;
 		}
 	},
 	Collection: class Collection extends CompactBase {
