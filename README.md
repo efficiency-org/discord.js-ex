@@ -51,7 +51,7 @@ But, oh, that's just the START! 1 line less? We plan to make this possible, too:
 const { prefix, token } = require('./config.json'); // {"prefix":"!","token":"your-token"}
 const { Client, Collection } = require('discord.js-ex'); // fs is a common module, so if I ever need to use it, I can just import it from discord.js-ex! Yay!
 const bot = new Client(token);
-bot.cmds = new Collection();
+bot.cmds = new Data();
 const commandFiles = bot.retrieveCommandFiles(); // ./commands/<command name>.js
 for (const file of commandFiles) {
   const command = bot.retrieveCommandFile(file);
