@@ -178,6 +178,15 @@ class CompactVoiceStatusObject extends CompactBase {
 	}
 }
 
+class CompactClientVoiceManagerObject extends CompactBase {
+	constructor(manager) {
+		super(manager);
+		// this.broads = new CompactBroadcastsListObject(this.uncompacted.broadcasts);
+		this.bot = new CompactClientObject(this.uncompacted.client);
+		// this.connections = new CompactConnectionsListObject(this.uncompacted.connections);
+	}
+}
+
 class CompactVoiceConnectionObject extends CompactBase {
 	constructor(connection) {
 		super(connection);
@@ -189,7 +198,7 @@ class CompactVoiceConnectionObject extends CompactBase {
 		// this.speaking = new CompactSpeakingObject(this.uncompacted.speaking);
 		this.stat = new CompactVoiceStatusObject(this.uncompacted.status).stat;
 		this.voiceState = new CompactVoiceStateObject(this.uncompacted.voice);
-		// this.manager = new CompactClientVoiceManagerObject(this.uncompacted.voiceManager);
+		this.manager = new CompactClientVoiceManagerObject(this.uncompacted.voiceManager);
 	}
 }
 
