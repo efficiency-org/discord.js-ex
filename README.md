@@ -22,9 +22,9 @@ You need to run `npm install discord.js` to install the `discord.js` package on 
 
 ```js
 // I don't need to use `require('discord.js');`, but I still need to install discord.js!
-const { Client } = require('discord.js-ex');
+const { Bot } = require('discord.js-ex');
 const token = 'your-token';
-const bot = new Client(token);
+const bot = new Bot(token);
 const prefix = '!';
 bot.whenOnline(() => console.log(`Logged in as ${bot.tag}!`));
 bot.whenMessageReceived(msg => if (msg.beginsWith(`${prefix}ping`)) msg.sendBack('Pong.'));
@@ -49,8 +49,8 @@ But, oh, that's just the START! 1 line less? We plan to make this possible, too:
 ```js
 // I don't need to use `require('discord.js');`, but I still need to install discord.js!
 const { prefix, token } = require('./config.json'); // {"prefix":"!","token":"your-token"}
-const { Client, Collection } = require('discord.js-ex'); // fs is a common module, so if I ever need to use it, I can just import it from discord.js-ex! Yay!
-const bot = new Client(token);
+const { Bot, Data } = require('discord.js-ex'); // fs is a common module, so if I ever need to use it, I can just import it from discord.js-ex! Yay!
+const bot = new Bot(token);
 bot.cmds = new Data();
 const commandFiles = bot.retrieveCommandFiles(); // ./commands/<command name>.js
 for (const file of commandFiles) {
