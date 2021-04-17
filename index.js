@@ -118,6 +118,13 @@ class CompactClientObject extends CompactBase {
 		// this.users = new CompactUserManagerObject(this.uncompacted.users);
 		// this.voice = new CompactClientVoiceManagerObject(this.uncompacted.voice);
 		this.ws = new CompactWsManagerObject(this.uncompacted.ws);
+		this.mainServer = null;
+	}
+	get main() {
+		return this.mainServer.toString();
+	}
+	set main(id) {
+		this.mainServer = id.toString();
 	}
 }
 
@@ -406,6 +413,15 @@ module.exports = {
 		}
 		parseCmdN(args) {
 			return args.shift().toLowerCase();
+		}
+		handleArgs(msg, prefix, cmd, args) {
+			if (cmd.args) {
+				let reply;
+				if (!args.length) reply = `${cmd.noArgsMsg.toString() ?? 'You didn\'t provide any arguments'}, ${msg.auth}!`;
+				if (typeof cmd.args === 'number' && cmd.args > args.length) reply = `${cmd.someArgsMsg.toString() ?? 'You didn\'t a provide enough arguments'}, ${msg.auth}!`;
+				if (cmd.usage) reply += `${cmd.usageMsg ?? 'The proper usage would be'}: \`${prefix}${cmd.name} ${cmd.usage}\``;
+				return msg.sendBack(reply.toString());
+			}
 		}
 		error(msg, err, type) {
 			if (!type) {
