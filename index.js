@@ -365,7 +365,7 @@ class CompactMessageObject extends CompactBase {
 module.exports = {
 	fs, // recommended: const { ..., fs, ... } = require('discord.js-ex');
 	UncompactedDiscord, // recommended: const { ..., UncompactedDiscord, ... } = require('discord.js-ex');
-	Client: class Client extends CompactClientObject {
+	Bot: class Bot extends CompactClientObject {
 		constructor(token) {
 			if (typeof token !== 'string') throw new Error(`Token must be of type string, not ${typeof token}.`);
 			super(new Client());
@@ -478,7 +478,7 @@ module.exports = {
 			return ((res ?? file) ?? message) ?? list;
 		}
 	},
-	Collection: class Collection extends CompactBase {
+	Data: class Data extends CompactBase {
 		constructor() {
 			super(new Collection());
 		}
