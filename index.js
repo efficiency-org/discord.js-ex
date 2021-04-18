@@ -119,6 +119,8 @@ class CompactClientObject extends CompactBase {
 		// this.voice = new CompactClientVoiceManagerObject(this.uncompacted.voice);
 		this.ws = new CompactWsManagerObject(this.uncompacted.ws);
 		this.mainServer = null;
+		this.realCooldowns = new Data();
+		this.cmds = new Data();
 	}
 	get main() {
 		return this.mainServer.toString();
@@ -307,6 +309,7 @@ class CompactMessageObject extends CompactBase {
 		this.text = this.uncompacted.content;
 		this.bot = this.uncompacted.client;
 		this.auth = new CompactUserObject(this.uncompacted.author);
+		this.authID = this.auth.id;
 		this.mem = if (!this.isDM()) new CompactMemberObject(this.uncompacted.member); else null;
 		this.webhookID = this.uncompacted.webhookID;
 		this.channel = new CompactChannelObject(this.uncompacted.channel);
@@ -426,8 +429,8 @@ module.exports = {
 		handleArgs(msg, prefix, cmd, args) {
 			if (cmd.args) {
 				let reply;
-				if (!args.length) reply = `${cmd.noArgsMsg.toString() ?? 'You didn\'t provide any arguments'}, ${msg.auth}!`;
-				if (typeof cmd.args === 'number' && cmd.args > args.length) reply = `${cmd.someArgsMsg.toString() ?? 'You didn\'t a provide enough arguments'}, ${msg.auth}!`;
+				if (!args.length) reply = `${cmd.noArgsMsg.toString() ?? ':x: You didn\'t provide any arguments'}, ${msg.auth}!`;
+				if (typeof cmd.args === 'number' && cmd.args > args.length) reply = `${cmd.someArgsMsg.toString() ?? ':x: You didn\'t a provide enough arguments'}, ${msg.auth}!`;
 				if (cmd.usage) reply += `${cmd.usageMsg ?? 'The proper usage would be'}: \`${prefix}${cmd.name} ${cmd.usage}\``;
 				return msg.sendBack(reply.toString());
 			}
@@ -501,6 +504,27 @@ module.exports = {
 				{ list } = await fetch(`https://api.urbandictionary.com/v0/define?${query}`).then(response => response.json());
 			}
 			return ((res ?? file) ?? message) ?? list;
+		}
+		get cooldowns() {
+				 return this.data;
+		}
+		set cooldowns([ a, b ]) {
+				 return this.data = { key: a, value: b, noOverride: false };
+		}
+		manageCooldowns(msg, cmd, { amount }) {
+			if (!this.cooldowns.get(cmd.name)) this.cooldowns = [ cmd.name, new Data() ];
+			const now = Date.now();
+			const timestamps = this.cooldowns.get(cmd.name));
+			const cooldownAmount = amount * 1000 ?? (cmd.cooldown || 3) * 1000;
+			if (timestamps.has(msg.authID)) {
+				const expirationTime = timestamps.get(msg.authID) + cooldownAmount;
+				if (now < expirationTime) {
+					const timeLeft = (expirationTime - now) / 1000;
+					return message.reply(`:x: Please wait ${timeLeft.toFixed(1)}s before reusing the \`${cmd.name}\` command.`);
+				}
+			}
+			timestamps.set(msg.authID, now);
+			setTimeout(() => timestamps.delete(msg.authID), cooldownAmount);
 		}
 	},
 	Data: class Data extends CompactBase {
