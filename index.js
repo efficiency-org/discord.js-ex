@@ -538,7 +538,7 @@ module.exports = {
 			return this.uncompacted.has(key); // already boolean
 		}
 		g(key) {
-			return this.uncompacted.get(key); // We need to cover normal discord.js stuff being in classes, though!
+			return this.uncompacted.get(key);
 		}
 	}
 };
