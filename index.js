@@ -526,6 +526,9 @@ module.exports = {
 			timestamps.set(msg.authID, now);
 			setTimeout(() => timestamps.delete(msg.authID), cooldownAmount);
 		}
+		removeArrayDuplicates(array) {
+			return [...new Set(array)];
+		}
 	},
 	Data: class Data extends CompactBase {
 		constructor() {
